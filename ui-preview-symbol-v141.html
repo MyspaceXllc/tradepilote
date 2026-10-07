@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="web/src/styles.css" />
+    <title>TradePilot Symbol Picker Preview</title>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brandlock">
+          <div class="brand">TP</div>
+          <div><strong>TRADEPILOT</strong><span>MT5 REMOTE CONTROL</span></div>
+        </div>
+        <div class="connection live"><i></i>MT5 CONNECTED</div>
+      </header>
+      <main class="shell">
+        <section class="terminal" style="min-height: 610px"></section>
+      </main>
+      <div class="symbolOverlay">
+        <section class="symbolModal" role="dialog">
+          <header>
+            <div>
+              <h2>Choose MT5 symbol</h2>
+              <p>11,441 symbols from your broker</p>
+            </div>
+            <button>×</button>
+          </header>
+          <label class="symbolSearch">
+            <span style="margin: 0">⌕</span>
+            <input value="EURUSD" aria-label="Search symbols" />
+          </label>
+          <div class="symbolResults">
+            <button>
+              <span
+                ><strong>EURUSD</strong><small>Euro vs US Dollar</small></span
+              ><em>Forex\Majors</em>
+            </button>
+            <button>
+              <span
+                ><strong>EURUSDm</strong
+                ><small>Euro vs US Dollar — Mini</small></span
+              ><em>Forex\Majors</em>
+            </button>
+            <button>
+              <span
+                ><strong>EURUSD.a</strong
+                ><small>Euro vs US Dollar</small></span
+              ><em>Forex\Standard</em>
+            </button>
+            <button>
+              <span
+                ><strong>EURUSDz</strong
+                ><small>Euro vs US Dollar — Zero</small></span
+              ><em>Forex\Zero</em>
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>

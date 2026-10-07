@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TradePilot Strategy Charts</title>
+<style>
+:root{color-scheme:dark;font-family:Inter,Segoe UI,system-ui,sans-serif;background:#07090d;color:#f7f7f8}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07090d}body{display:grid;grid-template-rows:58px 1fr}.top{height:58px;display:flex;align-items:center;justify-content:space-between;padding:0 14px;border-bottom:1px solid #252b35;background:linear-gradient(180deg,#10151d,#090c11)}.brand small{display:block;color:#7f8998;font-size:9px;font-weight:800;letter-spacing:.18em}.brand strong{display:block;color:#e0bb5f;font-size:16px;letter-spacing:.08em}.actions{display:flex;gap:8px;align-items:center}.pill,.btn{height:32px;border:1px solid #29323d;border-radius:7px;background:#10161f;color:#e8ebef;padding:0 10px;font-weight:800;font-size:10px}.pill{border-color:#256b63;color:#63e2bf}.btn{cursor:pointer}.btn:hover{border-color:#d6ad55;color:#f2cf78}.grid{min-height:0;display:grid;grid-template-columns:minmax(260px,1fr) 5px minmax(260px,1fr);grid-template-rows:minmax(220px,1fr) 5px minmax(220px,1fr);gap:0;padding:4px}.splitter{background:#252b35;position:relative;z-index:4}.splitter:hover{background:#d6ad55}.v{cursor:col-resize}.h{cursor:row-resize;grid-column:1/-1}.cell{min-width:0;min-height:0;position:relative;background:#090d13;border:1px solid #27303b;overflow:hidden}.cell iframe{width:100%;height:100%;border:0;background:#07090d}.bar{height:42px;position:absolute;z-index:3;left:0;right:0;top:0;display:grid;grid-template-columns:42px minmax(0,1fr) 76px 88px 34px;gap:6px;align-items:center;padding:5px 6px;background:rgba(9,13,19,.96);border-bottom:1px solid #29323d}.num{font-size:9px;font-weight:900;color:#d6ad55}.bar select{height:30px;min-width:0;background:#111820;border:1px solid #33404e;color:#f3f5f7;border-radius:6px;padding:0 7px;font-weight:800;font-size:10px}.bar button{height:30px;border:1px solid #33404e;border-radius:6px;background:#111820;color:#9ba6b4;cursor:pointer}.bar button:hover{color:#fff;border-color:#d6ad55}.frame{position:absolute;inset:42px 0 0}.cell.chart-only .frame{inset:0}.cell.chart-only .bar{background:linear-gradient(180deg,rgba(9,13,19,.98),rgba(9,13,19,.8));}.cell.loading:after{content:'LOADING…';position:absolute;inset:42px 0 0;display:grid;place-items:center;color:#657181;font-size:10px;font-weight:800;letter-spacing:.12em;background:#07090d}.menu{position:absolute;z-index:20;top:42px;left:48px;right:6px;display:none;background:#111720;border:1px solid #35404e;border-radius:7px;padding:6px;box-shadow:0 16px 45px #000b}.menu button{display:block;width:100%;height:32px;margin:2px 0;text-align:left;background:#171e27;border:0;border-radius:5px;color:#e7ebef;font-size:10px;font-weight:800;cursor:pointer;padding:0 9px}.menu button:hover{background:#d6ad55;color:#151109}.cell.type-open .menu{display:block}
+@media(max-width:900px){body{grid-template-rows:52px 1fr}.grid{grid-template-columns:1fr;grid-template-rows:repeat(4,minmax(180px,1fr));gap:4px;overflow:auto}.splitter{display:none}.top{height:52px}.brand strong{font-size:14px}}
+</style></head>
+<body>
+<header class="top"><div class="brand"><small>TRADEPILOT ANALYSIS</small><strong>STRATEGY CHARTS</strong></div><div class="actions"><span class="pill">● 4-PANEL LIVE</span><select id="symbol" class="pill" style="height:32px;background:#10161f"><option>XAUUSD · GOLD</option><option>EURUSD</option><option>GBPUSD</option><option>USDJPY</option><option>NAS100</option><option>BTCUSD</option></select><button class="btn" id="fs">⛶ FULLSCREEN</button></div></header>
+<main class="grid" id="grid">
+<div class="cell" data-i="0"></div><div class="splitter v" data-split="v"></div><div class="cell" data-i="1"></div>
+<div class="splitter h" data-split="h"></div>
+<div class="cell" data-i="2"></div><div class="splitter v" data-split="v2"></div><div class="cell" data-i="3"></div>
+</main>
+<script>
+const strategies={ema:'EMA trend','ema-macd':'EMA + MACD','ema-rsi':'EMA + RSI',bb:'Bollinger Bands','bb-rsi':'Bollinger + RSI','bb-macd':'Bollinger + MACD'};
+const types=[['CHART','Chart'],['STRATEGIES','Strategy'],['FLOW','Flow Pulse'],['FUSION','Signal Fusion']];
+const defaults=[['STRATEGIES','ema-macd','1'],['STRATEGIES','ema-rsi','5'],['STRATEGIES','bb-rsi','15'],['CHART','','60']];
+const cells=[...document.querySelectorAll('.cell')];
+function optionsForType(t,selected){if(t==='STRATEGIES')return Object.entries(strategies).map(([v,l])=>`<option value="${v}" ${v===selected?'selected':''}>${l}</option>`).join('');if(t==='CHART')return '';return `<option value="${t}" selected>${t==='FLOW'?'FLOW PULSE':'SIGNAL FUSION'}</option>`}
+function renderCell(cell,i,type=defaults[i][0],choice=defaults[i][1],tf=defaults[i][2]){
+ cell.classList.remove('chart-only','loading');cell.innerHTML=`<div class="bar"><span class="num">0${i+1}</span><select class="type">${types.map(([v,l])=>`<option value="${v}" ${v===type?'selected':''}>${l}</option>`).join('')}</select><select class="choice">${optionsForType(type,choice)}</select><select class="tf"><option value="1" ${tf==='1'?'selected':''}>M1</option><option value="5" ${tf==='5'?'selected':''}>M5</option><option value="15" ${tf==='15'?'selected':''}>M15</option><option value="60" ${tf==='60'?'selected':''}>H1</option><option value="240" ${tf==='240'?'selected':''}>H4</option></select><button class="reload">↻</button></div><div class="menu"></div><div class="frame"></div>`;
+ const typeSel=cell.querySelector('.type'), choiceSel=cell.querySelector('.choice'), tfSel=cell.querySelector('.tf');
+ typeSel.onchange=()=>{renderCell(cell,i,typeSel.value,typeSel.value==='STRATEGIES'?'ema-macd':typeSel.value,tfSel.value)};
+ choiceSel.onchange=()=>load(cell,i,typeSel.value,choiceSel.value,tfSel.value);
+ tfSel.onchange=()=>load(cell,i,typeSel.value,choiceSel.value,tfSel.value);
+ cell.querySelector('.reload').onclick=()=>load(cell,i,typeSel.value,choiceSel.value,tfSel.value);
+ load(cell,i,type,choice,tf);
+}
+function load(cell,i,type,choice,tf){const frame=cell.querySelector('.frame');frame.innerHTML='';cell.classList.remove('chart-only');
+ if(type==='CHART'){cell.classList.add('chart-only');const div=document.createElement('div');div.style.cssText='width:100%;height:100%';frame.appendChild(div);const s=document.createElement('script');s.src='https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js';s.async=true;s.innerHTML=JSON.stringify({autosize:true,symbol:'OANDA:XAUUSD',interval:tf,timezone:'Etc/UTC',theme:'dark',style:'1',locale:'en',allow_symbol_change:true,calendar:false,support_host:'https://www.tradingview.com'});div.appendChild(s);return;}
+ const iframe=document.createElement('iframe');iframe.src=type==='STRATEGIES'?'/analysis.html':type==='FLOW'?'/premium.html':'/fusion.html';iframe.title=type;iframe.addEventListener('load',()=>{try{if(type==='STRATEGIES'){const doc=iframe.contentDocument;const sel=doc.querySelector('#strategy');if(sel&&strategies[choice]){sel.value=choice;sel.dispatchEvent(new Event('change',{bubbles:true}));}const ts=doc.querySelector(`.timeframes button[data-interval=\"${tf}\"]`);if(ts)ts.click();}}catch(e){}});frame.appendChild(iframe)}
+cells.forEach((c,i)=>renderCell(c,i,...defaults[i]));
+// symbol selector updates TradingView panels on reload; strategy/fusion pages keep their own symbol controls.
+document.getElementById('fs').onclick=()=>document.documentElement.requestFullscreen?.();
+// draggable splitters
+const grid=document.getElementById('grid');let dragging=null;
+function start(e,axis){dragging={axis,start:axis==='v'?e.clientX:e.clientY};e.preventDefault()}
+document.querySelectorAll('.v').forEach(s=>s.addEventListener('mousedown',e=>start(e,'v')));document.querySelectorAll('.h').forEach(s=>s.addEventListener('mousedown',e=>start(e,'h')));
+window.addEventListener('mousemove',e=>{if(!dragging)return;const r=grid.getBoundingClientRect();if(dragging.axis==='v'){let p=((e.clientX-r.left)/r.width)*100;p=Math.max(18,Math.min(82,p));grid.style.gridTemplateColumns=`${p}fr 5px ${100-p}fr`}else{let p=((e.clientY-r.top)/r.height)*100;p=Math.max(18,Math.min(82,p));grid.style.gridTemplateRows=`${p}fr 5px ${100-p}fr`}});window.addEventListener('mouseup',()=>dragging=null);
+</script></body></html>

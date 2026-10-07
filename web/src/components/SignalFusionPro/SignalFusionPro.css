@@ -1,0 +1,205 @@
+﻿/* SignalFusionPro.css - Pro UI/UX */
+:root {
+  --bg-dark: #0B0E14;
+  --bg-card: rgba(20, 26, 38, 0.7);
+  --border-glow: rgba(255, 255, 255, 0.1);
+  --buy-color: #FF8C00;
+  --buy-glow: rgba(255, 140, 0, 0.4);
+  --sell-color: #00BFFF;
+  --sell-glow: rgba(0, 191, 255, 0.4);
+  --text-primary: #E2E8F0;
+  --text-secondary: #94A3B8;
+}
+
+.signal-fusion-pro {
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  font-family: 'Inter', system-ui, sans-serif;
+  min-height: 100vh;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Header */
+.pro-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glow);
+  border-radius: 12px;
+  padding: 15px 25px;
+}
+
+.pro-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #FBBF24;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.pro-controls {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+}
+
+.pro-select {
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--border-glow);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  border-radius: 8px;
+  outline: none;
+}
+
+.pro-btn-analyze {
+  background: #FBBF24;
+  color: #000;
+  font-weight: 700;
+  border: none;
+  padding: 10px 24px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.pro-btn-analyze:hover { transform: scale(1.05); box-shadow: 0 0 15px rgba(251, 191, 36, 0.5); }
+
+/* Cards */
+.pro-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+.pro-card {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glow);
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pro-card-label { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+.pro-card-value { font-size: 1.2rem; font-weight: 700; }
+.pro-card-sub { font-size: 0.8rem; color: var(--text-secondary); }
+
+/* Matrix */
+.pro-matrix-container {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-glow);
+  border-radius: 12px;
+  padding: 20px;
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.matrix-header {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.matrix-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  position: relative;
+}
+
+.lane-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 40px;
+  position: relative;
+}
+
+.lane-label {
+  width: 120px;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-align: right;
+  padding-right: 10px;
+}
+
+.lane-blocks {
+  flex: 1;
+  display: flex;
+  gap: 2px;
+  height: 100%;
+  position: relative;
+}
+
+.block {
+  flex: 1;
+  border-radius: 2px;
+  transition: all 0.2s;
+}
+.block:hover { transform: scaleY(1.2); filter: brightness(1.5); z-index: 10; }
+.block.buy { background-color: var(--buy-color); box-shadow: 0 0 8px var(--buy-glow); }
+.block.sell { background-color: var(--sell-color); box-shadow: 0 0 8px var(--sell-glow); }
+.block.neutral { background-color: #475569; }
+
+/* The 5 Lines Overlay */
+.lines-overlay {
+  position: absolute;
+  top: 0;
+  left: 120px; /* Match lane-label width */
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  z-index: 5;
+}
+
+.line-sell {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--sell-color), transparent);
+  opacity: 0.6;
+  position: relative;
+}
+.line-sell::after {
+  content: 'SELL';
+  position: absolute;
+  right: 10px;
+  top: -8px;
+  font-size: 0.6rem;
+  color: var(--sell-color);
+}
+
+.line-buy {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--buy-color), transparent);
+  opacity: 0.6;
+  position: relative;
+}
+.line-buy::after {
+  content: 'BUY';
+  position: absolute;
+  right: 10px;
+  top: -8px;
+  font-size: 0.6rem;
+  color: var(--buy-color);
+}
+
+/* Sidebar */
+.pro-sidebar {
+  width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}

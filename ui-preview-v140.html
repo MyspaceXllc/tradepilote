@@ -1,0 +1,98 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="web/src/styles.css" />
+    <title>TradePilot 1.4 UI Preview</title>
+  </head>
+  <body>
+    <div class="app">
+      <header class="topbar">
+        <div class="brandlock">
+          <div class="brand">TP</div>
+          <div>
+            <strong>TRADEPILOT</strong>
+            <span>MT5 REMOTE CONTROL</span>
+          </div>
+        </div>
+        <div class="statusTools">
+          <button class="wakeToggle active">☀ SCREEN ON</button>
+          <div class="connection live"><i></i>MT5 CONNECTED</div>
+        </div>
+      </header>
+      <main class="shell">
+        <section class="terminal">
+          <div class="marketHeader">
+            <div class="instrument">
+              <span>EURUSDm</span><strong>BUY • 0.01</strong>
+            </div>
+            <div class="quote">
+              <small>ENTRY</small><strong>1.17642</strong>
+            </div>
+            <div class="quote">
+              <small>CURRENT</small><strong>1.17708</strong>
+            </div>
+            <div class="pnl winner">
+              <small>P / L</small><strong>+6.60</strong>
+            </div>
+          </div>
+          <div class="compactRow">
+            <label>
+              <span>DEVICE</span>
+              <select>
+                <option>Exness Demo • online</option>
+              </select>
+            </label>
+            <label class="symbolControl">
+              <span>SYMBOL • 328</span>
+              <div class="symbolPicker">
+                <input value="EURUSDm" />
+                <button aria-label="Refresh MT5 symbols">↻</button>
+              </div>
+            </label>
+          </div>
+          <div class="lotControl">
+            <button>−</button>
+            <div><small>LOT SIZE</small><strong>0.01</strong></div>
+            <button>+</button>
+          </div>
+          <div class="tradeActions">
+            <button class="trade sell">
+              <span>SELL</span><small>MARKET</small>
+            </button>
+            <button class="trade buy">
+              <span>BUY</span><small>MARKET</small>
+            </button>
+          </div>
+          <button class="closePosition">
+            <span>CLOSE POSITION</span>
+            <small>Closes all open positions</small>
+          </button>
+          <div class="result">
+            Screen will stay awake while TradePilot is open
+          </div>
+          <details class="advanced">
+            <summary>
+              <div>
+                <strong>Advanced order</strong>
+                <span>SL, TP and pending limits</span>
+              </div>
+              <span>⌄</span>
+            </summary>
+          </details>
+        </section>
+        <section class="utilityBar">
+          <button>▦ PAIR DEVICE</button>
+          <button class="danger">◉ EMERGENCY</button>
+          <button>▣ LOCK</button>
+        </section>
+        <section class="deviceMeta">
+          <div>◇ <span>Mode <b>demo</b></span></div>
+          <div>⌁ <span>Exness Technologies Ltd.</span></div>
+          <span class="account">Account ••••7975</span>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

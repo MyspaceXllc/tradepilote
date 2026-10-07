@@ -1,0 +1,25 @@
+TradePilot 2.9.2 — Smart Market Calculator
+
+OPTION A — Update an existing source installation
+1. Extract TradePilot-v2.8.0-Update.zip.
+2. Right-click APPLY_UPDATE.ps1 and run it with PowerShell.
+3. Enter the path of your existing TradePilot folder.
+4. Rebuild/restart TradePilot.
+
+OPTION B — Full source package
+1. Extract TradePilot-v2.8.0-Full-Source.zip.
+2. On Windows, open PowerShell in the extracted folder.
+3. Run: .\BUILD_WINDOWS_INSTALLER.ps1
+4. The installer will be created as release\TradePilotSetup.exe.
+
+Requirements for building the Windows installer:
+- Windows 10/11 x64
+- Python 3.12 x64
+- Node.js + npm
+- Inno Setup 6 (the builder can install it with winget)
+
+Notes:
+- Premium Strategy performs analysis only and never sends an order.
+- It uses closed MT5 candles; the live tick is used for display/execution checks.
+- Historical probability and path projection are proposed analytical layers,
+  not guaranteed forecasts. Walk-forward validation is required.

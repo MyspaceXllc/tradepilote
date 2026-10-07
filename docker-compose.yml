@@ -1,0 +1,27 @@
+services:
+  server:
+    build: ./server
+    environment:
+      SECRET_KEY: ${SECRET_KEY:?Set SECRET_KEY in the project .env}
+      DATABASE_PATH: /data/tradepilot.db
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:8080}
+      DEMO_ONLY: "true"
+    volumes:
+      - tradepilot_data:/data
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./web
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://127.0.0.1:8000}
+    ports:
+      - "8080:80"
+    depends_on:
+      - server
+    restart: unless-stopped
+
+volumes:
+  tradepilot_data:

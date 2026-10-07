@@ -1,0 +1,32 @@
+# Release checklist
+
+- [ ] Demo BUY
+- [ ] Demo SELL
+- [ ] Demo CLOSE single
+- [ ] Demo CLOSE all
+- [ ] Demo CANCEL pending
+- [ ] Demo BUY LIMIT
+- [ ] Demo SELL LIMIT
+- [ ] Demo SL/TP
+- [ ] duplicate-command test
+- [ ] connector restart
+- [ ] MT5 restart
+- [ ] network disconnect/reconnect
+- [ ] broker symbol suffixes
+- [ ] refresh symbol list and test one Forex, metal, index, and crypto symbol exposed by the broker
+- [ ] market closed
+- [ ] invalid volume
+- [ ] emergency stop
+- [ ] pairing expiry
+- [ ] pairing survives connector restart
+- [ ] paired-device takeover is rejected
+- [ ] device unpair
+- [ ] command result cannot be submitted by another connector
+- [ ] live account rejected while Demo-only locks are enabled
+- [ ] HTTPS/WSS
+- [ ] production database
+- [ ] 2FA/passkeys
+- [ ] server-side risk engine
+- [ ] Windows service
+- [ ] code signing
+- [ ] penetration test

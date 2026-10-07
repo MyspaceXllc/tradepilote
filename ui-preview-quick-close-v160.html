@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <link rel="stylesheet" href="web/src/styles.css" />
+    <title>TradePilot Quick Close Preview</title>
+  </head>
+  <body>
+    <div class="app">
+      <header class="compactStatusBar">
+        <div class="sessionStatus open">
+          <i></i>
+          <span><small>ACTIVE SESSION</small><strong>LONDON</strong></span>
+        </div>
+        <div class="liveTime">
+          <small>LOCAL TIME</small><strong>11:20:38</strong>
+        </div>
+        <div class="connection live">
+          <i></i>
+          <span><small>TERMINAL</small><strong>MT5 CONNECTED</strong></span>
+        </div>
+      </header>
+      <main class="shell">
+        <section class="terminal">
+          <div class="marketHeader">
+            <div class="instrument">
+              <span>XAUUSD</span><strong>NO OPEN POSITION</strong>
+            </div>
+            <div class="quote"><small>ENTRY</small><strong>—</strong></div>
+            <div class="quote">
+              <small>CURRENT</small><strong>4,151.82</strong>
+            </div>
+            <div class="pnl neutral">
+              <small>P / L</small><strong>—</strong>
+            </div>
+          </div>
+          <div class="compactRow">
+            <label
+              ><span>DEVICE</span
+              ><select>
+                <option>MYSPACEX • online</option>
+              </select></label
+            >
+            <label class="symbolControl">
+              <span>SYMBOL • 11441</span>
+              <div class="symbolPicker">
+                <button class="symbolSelectButton">
+                  <span>XAUUSD</span><span>⌄</span>
+                </button>
+                <button class="symbolRefresh">↻</button>
+              </div>
+            </label>
+          </div>
+          <div class="lotControl">
+            <button>−</button>
+            <div><small>LOT SIZE</small><strong>0.01</strong></div>
+            <button>+</button>
+          </div>
+          <div class="tradeActions">
+            <button class="trade sell">
+              <span>SELL</span><small>MARKET</small>
+            </button>
+            <button class="trade buy">
+              <span>BUY</span><small>MARKET</small>
+            </button>
+          </div>
+          <button class="closePosition">
+            <span>CLOSE POSITION</span
+            ><small>Closes all open positions</small>
+          </button>
+          <div class="quickBulkClose">
+            <p>SELECTIVE CLOSE • EXECUTES IMMEDIATELY</p>
+            <div>
+              <button class="closeWinners">CLOSE WINNERS</button>
+              <button class="closeLosers">CLOSE LOSERS</button>
+            </div>
+          </div>
+          <div class="result">Device connected</div>
+          <details class="advanced">
+            <summary>
+              <div>
+                <strong>Advanced order</strong
+                ><span>SL, TP and pending limits</span>
+              </div>
+              <span>⌄</span>
+            </summary>
+          </details>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

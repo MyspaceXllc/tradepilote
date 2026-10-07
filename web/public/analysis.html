@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#d6ad55" />
+    <link rel="icon" href="/favicon.ico?v=2.9.2" sizes="any" />
+    <link rel="icon" type="image/png" href="/icon-192.png?v=2.9.2" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <title>TradePilot Market Lab</title>
+    <style>
+      :root {
+        color-scheme: dark;
+        font-family:
+          Inter,
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          sans-serif;
+        color: #f7f7f8;
+        background: #07090d;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-width: 720px;
+        min-height: 100vh;
+        overflow: hidden;
+        background:
+          radial-gradient(
+            circle at 92% -10%,
+            rgba(220, 183, 95, 0.12),
+            transparent 32%
+          ),
+          #07090d;
+      }
+
+      button,
+      select {
+        font: inherit;
+      }
+
+      .lab {
+        height: 100vh;
+        padding: 14px;
+        display: grid;
+        grid-template-rows: auto minmax(0, 1fr);
+        gap: 12px;
+      }
+
+      .toolbar {
+        min-height: 118px;
+        padding: 12px 14px;
+        display: grid;
+        grid-template-columns: 155px minmax(0, 1fr);
+        grid-template-rows: auto auto;
+        align-items: center;
+        gap: 9px 16px;
+        background: linear-gradient(
+          160deg,
+          rgba(20, 24, 32, 0.97),
+          rgba(11, 14, 19, 0.97)
+        );
+        border: 1px solid rgba(255, 255, 255, 0.11);
+        border-radius: 14px;
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.04) inset,
+          0 18px 46px rgba(0, 0, 0, 0.3);
+      }
+
+      .identity {
+        min-width: 0;
+        grid-row: 1 / 3;
+      }
+
+      .identity small,
+      .field span {
+        display: block;
+        color: rgba(255, 255, 255, 0.4);
+        font-size: 8px;
+        font-weight: 800;
+        letter-spacing: 0.16em;
+      }
+
+      .identity strong {
+        display: block;
+        margin-top: 4px;
+        overflow: hidden;
+        color: #f1d384;
+        font-size: 17px;
+        letter-spacing: 0.08em;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .premiumLink {
+        display: inline-flex;
+        margin-top: 9px;
+        padding: 6px 9px;
+        border: 1px solid rgba(220, 181, 82, 0.42);
+        border-radius: 7px;
+        color: #f0c967;
+        background: rgba(220, 181, 82, 0.08);
+        text-decoration: none;
+        font-size: 8px;
+        font-weight: 900;
+        letter-spacing: 0.09em;
+      }
+
+      .controls {
+        display: grid;
+        grid-template-columns: 1.25fr 0.9fr 1fr 0.9fr;
+        align-items: flex-end;
+        gap: 8px;
+      }
+
+      .field {
+        min-width: 0;
+        width: auto;
+      }
+
+      .controlFooter {
+        min-width: 0;
+        display: grid;
+        grid-template-columns: auto minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .field span {
+        margin: 0 0 6px 2px;
+      }
+
+      select {
+        width: 100%;
+        height: 42px;
+        padding: 0 34px 0 11px;
+        color: #f6f6f7;
+        background: linear-gradient(180deg, #0d1016, #090c10);
+        border: 1px solid rgba(255, 255, 255, 0.13);
+        border-radius: 9px;
+        outline: none;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      select:focus {
+        border-color: rgba(220, 183, 95, 0.62);
+        box-shadow: 0 0 0 3px rgba(220, 183, 95, 0.1);
+      }
+
+      select option {
+        color: #111318;
+        background: #f4f4f4;
+        font-weight: 650;
+      }
+
+      select option:checked {
+        color: #080a0e;
+        background: #d9d9d9;
+      }
+
+      .timeframes {
+        padding: 4px;
+        display: grid;
+        grid-template-columns: repeat(5, 42px);
+        gap: 4px;
+        background: #090c10;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+      }
+
+      .chartActions {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .chartActions button {
+        min-height: 42px;
+        padding: 0 13px;
+        color: rgba(255, 255, 255, 0.68);
+        background: linear-gradient(180deg, #171b24, #10131a);
+        border: 1px solid rgba(255, 255, 255, 0.11);
+        border-radius: 9px;
+        cursor: pointer;
+        font-size: 9px;
+        font-weight: 850;
+        letter-spacing: 0.09em;
+      }
+
+      .chartActions button:hover {
+        color: #f1d384;
+        border-color: rgba(220, 183, 95, 0.38);
+      }
+
+      .timeframes button {
+        min-height: 36px;
+        color: rgba(255, 255, 255, 0.5);
+        background: transparent;
+        border: 0;
+        border-radius: 7px;
+        cursor: pointer;
+        font-size: 10px;
+        font-weight: 900;
+      }
+
+      .timeframes button.active {
+        color: #171107;
+        background: linear-gradient(145deg, #f0d489, #c99b39);
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.35) inset,
+          0 7px 16px rgba(139, 100, 23, 0.18);
+      }
+
+      .marketStats {
+        min-width: 0;
+        height: 44px;
+        padding: 4px 7px;
+        display: flex;
+        align-items: stretch;
+        overflow-x: auto;
+        scrollbar-width: none;
+        background: linear-gradient(
+          180deg,
+          rgba(14, 19, 27, 0.96),
+          rgba(8, 11, 16, 0.96)
+        );
+        border: 1px solid rgba(104, 157, 221, 0.3);
+        border-radius: 10px;
+        box-shadow:
+          0 1px 0 rgba(255, 255, 255, 0.04) inset,
+          0 8px 22px rgba(0, 0, 0, 0.24);
+      }
+
+      .marketStats::-webkit-scrollbar {
+        display: none;
+      }
+
+      .stat {
+        min-width: 59px;
+        padding: 2px 8px;
+        display: grid;
+        align-content: center;
+        gap: 2px;
+        border-left: 1px solid rgba(255, 255, 255, 0.08);
+        white-space: nowrap;
+      }
+
+      .stat:first-child {
+        min-width: 53px;
+        border-left: 0;
+      }
+
+      .stat small {
+        color: rgba(255, 255, 255, 0.38);
+        font-size: 6px;
+        font-weight: 900;
+        letter-spacing: 0.13em;
+      }
+
+      .stat strong {
+        color: #e7e9ed;
+        font-size: 10px;
+        font-variant-numeric: tabular-nums;
+        letter-spacing: 0.02em;
+      }
+
+      .stat.period strong {
+        color: #78c6ff;
+        font-size: 9px;
+        letter-spacing: 0.1em;
+      }
+
+      .stat strong.positive {
+        color: #65e6a7;
+      }
+
+      .stat strong.negative {
+        color: #ff7f88;
+      }
+
+      .stat strong.neutral {
+        color: #a8adb6;
+      }
+
+      .chartCard {
+        position: relative;
+        min-height: 0;
+        overflow: hidden;
+        background: #090c11;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        box-shadow: 0 24px 70px rgba(0, 0, 0, 0.42);
+      }
+
+      .chartMeta {
+        position: absolute;
+        top: 10px;
+        left: 12px;
+        z-index: 4;
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        pointer-events: none;
+      }
+
+      .badge {
+        padding: 6px 8px;
+        color: rgba(255, 255, 255, 0.65);
+        background: rgba(9, 12, 17, 0.82);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 7px;
+        backdrop-filter: blur(10px);
+        font-size: 8px;
+        font-weight: 850;
+        letter-spacing: 0.09em;
+      }
+
+      .badge.live {
+        color: #9ce8c1;
+        border-color: rgba(44, 201, 123, 0.28);
+      }
+
+      #chartHost,
+      .tradingview-widget-container,
+      .tradingview-widget-container__widget {
+        width: 100%;
+        height: 100%;
+      }
+
+      .tradingview-widget-container {
+        position: relative;
+        z-index: 2;
+      }
+
+      .chartLoading {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        place-items: center;
+        color: rgba(255, 255, 255, 0.42);
+        background:
+          linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+          linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.025) 1px,
+            transparent 1px
+          ),
+          #090c11;
+        background-size: 32px 32px;
+        font-size: 11px;
+        letter-spacing: 0.12em;
+      }
+
+      @media (max-width: 820px) {
+        .toolbar {
+          grid-template-columns: 120px 1fr;
+        }
+
+        .controls {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .controlFooter {
+          grid-template-columns: auto minmax(260px, 1fr) auto;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="lab">
+      <header class="toolbar">
+        <div class="identity">
+          <small>TRADEPILOT ANALYSIS • MARKET LAB 2.9.2</small>
+          <strong>MARKET LAB</strong>
+          <a class="premiumLink" href="/premium.html">PREMIUM STRATEGY →</a>
+        </div>
+
+        <div class="controls">
+          <label class="field style">
+            <span>CHART STYLE</span>
+            <select id="chartStyle">
+              <option value="1" selected>Candles</option>
+              <option value="2">Hollow candles</option>
+              <option value="3">Heikin Ashi</option>
+              <option value="4">Line</option>
+              <option value="5">Area</option>
+              <option value="10">Baseline</option>
+            </select>
+          </label>
+          <label class="field strategy">
+            <span>STRATEGY / INDICATORS</span>
+            <select id="strategy">
+              <option value="clean">Clean chart</option>
+              <option value="ema">EMA trend</option>
+              <option value="ema-macd" selected>EMA + MACD</option>
+              <option value="ema-rsi">EMA + RSI</option>
+              <option value="macd-rsi">MACD + RSI</option>
+              <option value="bb">Bollinger Bands</option>
+              <option value="rsi">RSI momentum</option>
+              <option value="bb-rsi">Bollinger + RSI</option>
+              <option value="bb-macd">Bollinger + MACD</option>
+            </select>
+          </label>
+          <label class="field symbol">
+            <span>REFERENCE SYMBOL</span>
+            <select id="symbol">
+              <option value="OANDA:XAUUSD" selected>XAUUSD • OANDA</option>
+              <option value="OANDA:EURUSD">EURUSD • OANDA</option>
+              <option value="OANDA:GBPUSD">GBPUSD • OANDA</option>
+              <option value="OANDA:USDJPY">USDJPY • OANDA</option>
+              <option value="OANDA:AUDUSD">AUDUSD • OANDA</option>
+              <option value="OANDA:NZDUSD">NZDUSD • OANDA</option>
+              <option value="OANDA:USDCAD">USDCAD • OANDA</option>
+              <option value="OANDA:USDCHF">USDCHF • OANDA</option>
+              <option value="OANDA:NAS100USD">NAS100 • OANDA</option>
+              <option value="OANDA:SPX500USD">SPX500 • OANDA</option>
+              <option value="BITSTAMP:BTCUSD">BTCUSD • BITSTAMP</option>
+            </select>
+          </label>
+          <label class="field timezone">
+            <span>TIMEZONE</span>
+            <select id="timezone">
+              <option value="exchange">Exchange</option>
+              <option value="Etc/UTC" selected>UTC</option>
+              <option value="Europe/London">London</option>
+              <option value="America/New_York">New York</option>
+              <option value="Asia/Tokyo">Tokyo</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="controlFooter">
+          <nav class="timeframes" aria-label="Chart timeframe">
+            <button data-interval="1">M1</button>
+            <button data-interval="5" class="active">M5</button>
+            <button data-interval="15">M15</button>
+            <button data-interval="60">H1</button>
+            <button data-interval="240">H4</button>
+          </nav>
+          <div class="marketStats" aria-label="Today's MT5 performance">
+            <div class="stat period">
+              <small>PERIOD</small>
+              <strong>TODAY</strong>
+            </div>
+            <div class="stat">
+              <small>PIPS</small>
+              <strong id="statPips">—</strong>
+            </div>
+            <div class="stat">
+              <small>BALANCE</small>
+              <strong id="statBalance">—</strong>
+            </div>
+            <div class="stat">
+              <small>EQUITY</small>
+              <strong id="statEquity">—</strong>
+            </div>
+            <div class="stat">
+              <small>CLOSED P/L</small>
+              <strong id="statClosedProfit">—</strong>
+            </div>
+            <div class="stat">
+              <small>GROSS WIN</small>
+              <strong id="statGrossWin">—</strong>
+            </div>
+            <div class="stat">
+              <small>GROSS LOSS</small>
+              <strong id="statGrossLoss">—</strong>
+            </div>
+            <div class="stat">
+              <small>W / L</small>
+              <strong id="statWinLoss">0 / 0</strong>
+            </div>
+            <div class="stat">
+              <small>OPEN P/L</small>
+              <strong id="statOpenProfit">—</strong>
+            </div>
+          </div>
+          <div class="chartActions">
+            <button id="fullscreen" type="button">⛶ FULLSCREEN</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="chartCard">
+        <div class="chartMeta">
+          <span class="badge live">● TV LIVE</span>
+          <span class="badge">REFERENCE FEED • NOT EXNESS</span>
+          <span class="badge" id="activePreset">EMA + MACD • CANDLES</span>
+        </div>
+        <div id="chartHost">
+          <div class="chartLoading">CONNECTING TO TRADINGVIEW…</div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const presets = {
+        clean: [],
+        ema: ["STD;EMA"],
+        "ema-macd": ["STD;EMA", "STD;MACD"],
+        "ema-rsi": ["STD;EMA", "STD;RSI"],
+        "macd-rsi": ["STD;MACD", "STD;RSI"],
+        bb: ["STD;Bollinger_Bands"],
+        rsi: ["STD;RSI"],
+        "bb-rsi": ["STD;Bollinger_Bands", "STD;RSI"],
+        "bb-macd": ["STD;Bollinger_Bands", "STD;MACD"],
+      };
+
+      const strategy = document.getElementById("strategy");
+      const chartStyle = document.getElementById("chartStyle");
+      const symbol = document.getElementById("symbol");
+      const timezone = document.getElementById("timezone");
+      const fullscreen = document.getElementById("fullscreen");
+      const activePreset = document.getElementById("activePreset");
+      const chartHost = document.getElementById("chartHost");
+      const statPips = document.getElementById("statPips");
+      const statBalance = document.getElementById("statBalance");
+      const statEquity = document.getElementById("statEquity");
+      const statClosedProfit = document.getElementById("statClosedProfit");
+      const statGrossWin = document.getElementById("statGrossWin");
+      const statGrossLoss = document.getElementById("statGrossLoss");
+      const statWinLoss = document.getElementById("statWinLoss");
+      const statOpenProfit = document.getElementById("statOpenProfit");
+      const intervalButtons = [...document.querySelectorAll("[data-interval]")];
+      const preferencesKey = "tradepilot_market_lab_preferences";
+      let interval = "5";
+
+      function signedNumber(value, suffix = "") {
+        const number = Number(value || 0);
+        const sign = number > 0 ? "+" : "";
+        return `${sign}${number.toFixed(2)}${suffix}`;
+      }
+
+      function setPerformanceValue(element, value, text) {
+        const number = Number(value || 0);
+        element.textContent = text ?? signedNumber(number);
+        element.className =
+          number > 0 ? "positive" : number < 0 ? "negative" : "neutral";
+      }
+
+      function updatePerformanceStats(stats) {
+        if (!stats) return;
+        setPerformanceValue(
+          statPips,
+          stats.closed_pips,
+          signedNumber(stats.closed_pips, " P"),
+        );
+        statBalance.textContent = Number(stats.balance || 0).toFixed(2);
+        statBalance.className = "neutral";
+        statEquity.textContent = Number(stats.equity || 0).toFixed(2);
+        statEquity.className =
+          Number(stats.equity || 0) >= Number(stats.balance || 0)
+            ? "positive"
+            : "negative";
+        setPerformanceValue(statClosedProfit, stats.closed_profit);
+        setPerformanceValue(statGrossWin, stats.gross_win);
+        setPerformanceValue(
+          statGrossLoss,
+          -Math.abs(Number(stats.gross_loss || 0)),
+        );
+        statWinLoss.textContent =
+          `${stats.closed_wins || 0} / ${stats.closed_losses || 0}`;
+        statWinLoss.className =
+          Number(stats.closed_wins || 0) >= Number(stats.closed_losses || 0)
+            ? "positive"
+            : "negative";
+        setPerformanceValue(statOpenProfit, stats.open_profit);
+      }
+
+      async function refreshMarketStats() {
+        try {
+          const response = await fetch("/local/market-lab/positions", {
+            cache: "no-store",
+          });
+          if (!response.ok) throw new Error("Performance feed unavailable");
+          const result = await response.json();
+          updatePerformanceStats(result.raw?.stats);
+        } catch {
+          // Keep the last visible values during a short connector interruption.
+        }
+      }
+
+      function restorePreferences() {
+        try {
+          const saved = JSON.parse(
+            localStorage.getItem(preferencesKey) || "{}",
+          );
+          for (const [element, value] of [
+            [strategy, saved.strategy],
+            [chartStyle, saved.chartStyle],
+            [symbol, saved.symbol],
+            [timezone, saved.timezone],
+          ]) {
+            if (
+              value &&
+              [...element.options].some((option) => option.value === value)
+            ) {
+              element.value = value;
+            }
+          }
+          if (
+            saved.interval &&
+            intervalButtons.some(
+              (button) => button.dataset.interval === saved.interval,
+            )
+          ) {
+            interval = saved.interval;
+          }
+        } catch {
+          // Corrupt preferences should never stop the chart.
+        }
+        intervalButtons.forEach((button) =>
+          button.classList.toggle(
+            "active",
+            button.dataset.interval === interval,
+          ),
+        );
+      }
+
+      function savePreferences() {
+        localStorage.setItem(
+          preferencesKey,
+          JSON.stringify({
+            strategy: strategy.value,
+            chartStyle: chartStyle.value,
+            symbol: symbol.value,
+            timezone: timezone.value,
+            interval,
+          }),
+        );
+      }
+
+      function updateActivePreset() {
+        const strategyLabel = strategy.options[strategy.selectedIndex].text;
+        const styleLabel = chartStyle.options[chartStyle.selectedIndex].text;
+        activePreset.textContent =
+          `${strategyLabel} • ${styleLabel}`.toUpperCase();
+      }
+
+      function renderChart() {
+        savePreferences();
+        updateActivePreset();
+        chartHost.replaceChildren();
+        const loading = document.createElement("div");
+        loading.className = "chartLoading";
+        loading.textContent = "CONNECTING TO TRADINGVIEW…";
+        chartHost.appendChild(loading);
+
+        const container = document.createElement("div");
+        container.className = "tradingview-widget-container";
+        const widget = document.createElement("div");
+        widget.className = "tradingview-widget-container__widget";
+        container.appendChild(widget);
+
+        const script = document.createElement("script");
+        script.type = "text/javascript";
+        script.src =
+          "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+        script.async = true;
+        script.textContent = JSON.stringify({
+          autosize: true,
+          symbol: symbol.value,
+          interval,
+          timezone: timezone.value,
+          theme: "dark",
+          backgroundColor: "rgba(9, 12, 17, 1)",
+          gridColor: "rgba(255, 255, 255, 0.035)",
+          style: chartStyle.value,
+          locale: "en",
+          allow_symbol_change: false,
+          hide_side_toolbar: false,
+          hide_top_toolbar: false,
+          hide_legend: false,
+          hide_volume: false,
+          studies: presets[strategy.value],
+          withdateranges: true,
+          save_image: false,
+          calendar: false,
+          support_host: "https://www.tradingview.com",
+        });
+        container.appendChild(script);
+        chartHost.appendChild(container);
+      }
+
+      strategy.addEventListener("change", renderChart);
+      chartStyle.addEventListener("change", renderChart);
+      symbol.addEventListener("change", renderChart);
+      timezone.addEventListener("change", renderChart);
+      intervalButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          interval = button.dataset.interval;
+          intervalButtons.forEach((item) =>
+            item.classList.toggle("active", item === button),
+          );
+          renderChart();
+        });
+      });
+
+      fullscreen.addEventListener("click", async () => {
+        if (document.fullscreenElement) {
+          await document.exitFullscreen();
+        } else {
+          await document.documentElement.requestFullscreen();
+        }
+      });
+
+      document.addEventListener("fullscreenchange", () => {
+        fullscreen.textContent = document.fullscreenElement
+          ? "× EXIT FULLSCREEN"
+          : "⛶ FULLSCREEN";
+      });
+
+      restorePreferences();
+      renderChart();
+      refreshMarketStats();
+      window.setInterval(refreshMarketStats, 2500);
+    </script>
+  </body>
+</html>
